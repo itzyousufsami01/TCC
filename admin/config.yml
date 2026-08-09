@@ -1,0 +1,220 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+site_url: /
+display_url: /
+
+publish_mode: simple
+
+collections:
+
+  - name: "settings"
+    label: "Site Settings"
+    files:
+
+      - file: "site-settings.json"
+        label: "Store Settings"
+        name: "general"
+
+        fields:
+
+          - label: "WhatsApp Number"
+            name: "whatsappNumber"
+            widget: "string"
+            hint: "Display number, e.g. 01410355233"
+
+          - label: "WhatsApp International Number"
+            name: "whatsappInternational"
+            widget: "string"
+            hint: "No + or spaces, e.g. 8801410355233"
+
+          - label: "Default WhatsApp Message"
+            name: "whatsappMessage"
+            widget: "string"
+
+          - label: "Inside Mymensingh Sadar — Label"
+            name: "shippingInsideLabel"
+            widget: "string"
+
+          - label: "Inside Mymensingh Sadar — Charge (৳)"
+            name: "shippingInsideCharge"
+            widget: "number"
+            value_type: "int"
+            min: 0
+
+          - label: "Outside Mymensingh Sadar — Label"
+            name: "shippingOutsideLabel"
+            widget: "string"
+
+          - label: "Outside Mymensingh Sadar — Charge (৳)"
+            name: "shippingOutsideCharge"
+            widget: "number"
+            value_type: "int"
+            min: 0
+
+
+  - name: "products"
+    label: "Products"
+    files:
+
+      - file: "products.json"
+        label: "Product Catalog"
+        name: "catalog"
+        format: "json"
+
+        fields:
+
+          - label: "Products"
+            name: "products"
+            widget: "list"
+            root: true
+            collapsed: true
+            summary: "{{name}} — ৳{{price}}"
+
+            fields:
+
+              - label: "Unique Slug / ID"
+                name: "slug"
+                widget: "string"
+                hint: "Use a permanent unique ID such as resin-tray-001."
+
+              - label: "Product Name"
+                name: "name"
+                widget: "string"
+
+              - label: "Category"
+                name: "category"
+                widget: "select"
+                options:
+                  - label: "Gypsum (জিপসাম)"
+                    value: "gypsum"
+                  - label: "Resin (রেজিন)"
+                    value: "resin"
+                  - label: "Candle (ক্যান্ডেল)"
+                    value: "candle"
+                default: "gypsum"
+
+              - label: "Subcategory"
+                name: "subcategory"
+                widget: "string"
+                required: false
+
+              - label: "Date Added"
+                name: "dateAdded"
+                widget: "datetime"
+                required: false
+                date_format: "YYYY-MM-DD"
+                time_format: false
+
+              - label: "Tags"
+                name: "tags"
+                widget: "string"
+                required: false
+                hint: "Separate tags with commas."
+
+              - label: "SKU"
+                name: "sku"
+                widget: "string"
+                required: false
+
+              - label: "Short Description"
+                name: "description"
+                widget: "text"
+                required: false
+
+              - label: "Full Description"
+                name: "fullDescription"
+                widget: "text"
+                required: false
+
+              - label: "Price (৳)"
+                name: "price"
+                widget: "number"
+                value_type: "float"
+                min: 0
+
+              - label: "Original Price (৳)"
+                name: "originalPrice"
+                widget: "number"
+                value_type: "float"
+                required: false
+                min: 0
+
+              - label: "Main Photo"
+                name: "image"
+                widget: "image"
+
+              - label: "Additional Gallery Photos"
+                name: "gallery"
+                widget: "list"
+                required: false
+                field:
+                  label: "Photo"
+                  name: "src"
+                  widget: "image"
+
+              - label: "In Stock"
+                name: "inStock"
+                widget: "boolean"
+                default: true
+
+              - label: "Stock Quantity"
+                name: "stockQuantity"
+                widget: "number"
+                value_type: "int"
+                required: false
+                min: 0
+
+              - label: "Materials"
+                name: "materials"
+                widget: "string"
+                required: false
+
+              - label: "Dimensions"
+                name: "dimensions"
+                widget: "string"
+                required: false
+
+              - label: "Weight"
+                name: "weight"
+                widget: "string"
+                required: false
+
+              - label: "Show in Trending"
+                name: "trending"
+                widget: "boolean"
+                default: false
+
+              - label: "Best Seller"
+                name: "bestSeller"
+                widget: "boolean"
+                default: false
+
+              - label: "New Arrival"
+                name: "newArrival"
+                widget: "boolean"
+                default: false
+
+              - label: "Featured"
+                name: "featured"
+                widget: "boolean"
+                default: false
+
+              - label: "Limited Stock"
+                name: "limited"
+                widget: "boolean"
+                default: false
+
+              - label: "SEO Title"
+                name: "seoTitle"
+                widget: "string"
+                required: false
+
+              - label: "SEO Description"
+                name: "seoDescription"
+                widget: "text"
+                required: false
