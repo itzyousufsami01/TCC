@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>সকল পণ্য | The Crafted Canopy</title>
+  <meta name="description" content="Browse all products from The Crafted Canopy." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html">
+        <div class="logo-mark brand-font">TC</div>
+        <div class="logo-text">
+          <strong class="brand-font">The Crafted Canopy</strong>
+          <span>সকল পণ্য</span>
+        </div>
+      </a>
+      <div class="header-actions">
+        <button class="icon-btn" type="button" id="openCartBtn" title="Cart">
+          <i class="fa-solid fa-basket-shopping"></i>
+          <span class="icon-badge" id="cartBadge">0</span>
+        </button>
+        <a class="icon-btn" href="admin/" title="Admin"><i class="fa-solid fa-screwdriver-wrench"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" style="padding-bottom:0;">
+      <div class="hero-copy" style="min-height:unset;">
+        <div>
+          <span class="kicker"><i class="fa-solid fa-store"></i> Storefront</span>
+          <h1 class="brand-font" style="font-size:clamp(28px,5vw,44px); margin-bottom:10px;">সকল পণ্য</h1>
+          <p>এটি এখন একদম ফাঁকা। আপনি /admin থেকে পণ্য যোগ করলে সেগুলো এখানে দেখাবে, সার্চ করা যাবে, কার্টে যাবে, এবং WhatsApp checkout-এ যাবে।</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <input class="input" id="searchInput" placeholder="পণ্য, ট্যাগ, SKU বা বর্ণনা দিয়ে খুঁজুন" />
+          <button class="btn btn-soft" type="button" id="clearSearchBtn"><i class="fa-solid fa-xmark"></i> Clear</button>
+        </div>
+        <div class="toolbar-right">
+          <select class="select" id="sortSelect">
+            <option value="default">Sort: Default</option>
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+            <option value="name-asc">Name: A-Z</option>
+          </select>
+          <button class="btn btn-ghost" type="button" id="filterGypsumBtn">Gypsum</button>
+          <button class="btn btn-ghost" type="button" id="filterResinBtn">Resin</button>
+          <button class="btn btn-ghost" type="button" id="filterCandleBtn">Candle</button>
+        </div>
+      </div>
+
+      <div class="chips" id="activeChips"></div>
+
+      <div id="productsGrid" class="card-grid"></div>
+
+      <div class="empty-state card-soft" id="emptyProducts" style="display:none; margin-top:18px;">
+        <i class="fa-solid fa-box-open" style="font-size:34px; color:var(--accent);"></i>
+        <h3 class="brand-font">এখনো কোনো পণ্য যোগ করা হয়নি</h3>
+        <p>/admin খুলে আপনার প্রথম পণ্যটি যোগ করুন। তারপর এই পেজটি নিজে থেকেই পূরণ হয়ে যাবে।</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <strong class="brand-font">The Crafted Canopy</strong>
+        <p style="margin:8px 0 0;">Products page with empty-state support, search, filters, cart, and WhatsApp checkout.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="whatsapp-float" id="whatsappFloat" type="button" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>
+
+  <div class="sidebar-overlay" id="overlay"></div>
+  <aside class="drawer" id="cartDrawer" aria-label="Cart drawer">
+    <div class="drawer-head">
+      <div>
+        <div class="kicker">Cart</div>
+        <strong class="brand-font">আপনার কার্ট</strong>
+      </div>
+      <button class="icon-btn" type="button" id="closeCartBtn" style="width:42px;height:42px;"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="drawer-body">
+      <div id="cartItems"></div>
+
+      <div class="delivery-card">
+        <strong class="brand-font">ডেলিভারি নির্বাচন করুন</strong>
+        <label class="delivery-option active" id="deliveryInsideLabel">
+          <input type="radio" name="deliveryMode" value="inside" checked />
+          <div>
+            <div><strong id="insideLabelText">ময়মনসিংহ সদরের ভেতরে</strong></div>
+            <div class="small muted">চার্জ: <span id="insideChargeText">৳৮০</span></div>
+          </div>
+        </label>
+        <label class="delivery-option" id="deliveryOutsideLabel">
+          <input type="radio" name="deliveryMode" value="outside" />
+          <div>
+            <div><strong id="outsideLabelText">ময়মনসিংহ সদরের বাইরে</strong></div>
+            <div class="small muted">চার্জ: <span id="outsideChargeText">৳১৩০</span></div>
+          </div>
+        </label>
+      </div>
+
+      <div class="summary">
+        <div class="summary-row"><span class="muted">Subtotal</span><strong id="subtotalText">৳০</strong></div>
+        <div class="summary-row"><span class="muted">Delivery</span><strong id="deliveryText">৳০</strong></div>
+        <div class="summary-row" style="border-top:1px solid var(--line); padding-top:10px; margin-top:10px;"><span class="muted">Total</span><strong id="totalText">৳০</strong></div>
+      </div>
+
+      <button class="btn btn-primary" type="button" id="checkoutBtn"><i class="fa-brands fa-whatsapp"></i> WhatsApp-এ অর্ডার পাঠান</button>
+      <button class="btn btn-soft" type="button" id="clearCartBtn"><i class="fa-solid fa-trash"></i> কার্ট খালি করুন</button>
+    </div>
+  </aside>
+
+  <script src="assets/site.js"></script>
+  <script>
+    const state = {
+      products: [],
+      settings: { ...FALLBACK_SETTINGS },
+      category: 'all',
+      search: '',
+      sort: 'default',
+      cartShipping: 'inside'
+    };
+
+    function currentVisibleProducts() {
+      const query = state.search.trim().toLowerCase();
+      let list = state.products.map((p, index) => ({ p, index }));
+
+      if (state.category !== 'all') {
+        list = list.filter(({ p }) => String(p.category || '').toLowerCase() === state.category);
+      }
+
+      if (query) {
+        list = list.filter(({ p }) => {
+          const haystack = [
+            p.name, p.category, p.subcategory, p.description, p.fullDescription,
+            p.tags, p.sku, p.materials, p.dimensions, p.weight
+          ].filter(Boolean).join(' ').toLowerCase();
+          return haystack.includes(query);
+        });
+      }
+
+      switch (state.sort) {
+        case 'newest':
+          list.sort((a, b) => new Date(b.p.dateAdded || 0) - new Date(a.p.dateAdded || 0));
+          break;
+        case 'oldest':
+          list.sort((a, b) => new Date(a.p.dateAdded || 0) - new Date(b.p.dateAdded || 0));
+          break;
+        case 'price-asc':
+          list.sort((a, b) => Number(a.p.price || 0) - Number(b.p.price || 0));
+          break;
+        case 'price-desc':
+          list.sort((a, b) => Number(b.p.price || 0) - Number(a.p.price || 0));
+          break;
+        case 'name-asc':
+          list.sort((a, b) => String(a.p.name || '').localeCompare(String(b.p.name || ''), 'bn'));
+          break;
+      }
+
+      return list;
+    }
+
+    function renderChips() {
+      const chips = [];
+      if (state.category !== 'all') {
+        chips.push(`<button class="chip active" type="button" onclick="setCategory('all')">সব ক্যাটাগরি <i class="fa-solid fa-xmark"></i></button>`);
+      }
+      if (state.search) {
+        chips.push(`<button class="chip active" type="button" onclick="clearSearch()">Search: ${state.search} <i class="fa-solid fa-xmark"></i></button>`);
+      }
+      if (!chips.length) {
+        chips.push(`<span class="muted small">কোনো ফিল্টার সক্রিয় নেই</span>`);
+      }
+      document.getElementById('activeChips').innerHTML = chips.join('');
+    }
+
+    function setCategory(category) {
+      state.category = category;
+      renderGrid();
+      renderChips();
+    }
+
+    function clearSearch() {
+      state.search = '';
+      document.getElementById('searchInput').value = '';
+      renderGrid();
+      renderChips();
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('productsGrid');
+      const empty = document.getElementById('emptyProducts');
+      const visible = currentVisibleProducts();
+
+      if (!state.products.length) {
+        grid.innerHTML = '';
+        empty.style.display = 'block';
+        renderCart();
+        renderSummary();
+        updateBadges();
+        return;
+      }
+
+      empty.style.display = 'none';
+
+      if (!visible.length) {
+        grid.innerHTML = `
+          <div class="empty-state card-soft" style="grid-column:1/-1;">
+            <i class="fa-solid fa-filter" style="font-size:34px; color:var(--accent);"></i>
+            <h3 class="brand-font">কোনো পণ্য পাওয়া যায়নি</h3>
+            <p>ফিল্টার পরিবর্তন করে আবার দেখুন।</p>
+          </div>`;
+        renderCart();
+        renderSummary();
+        updateBadges();
+        return;
+      }
+
+      grid.innerHTML = visible.map(({ p, index }) => {
+        const slug = productCardId(p, index);
+        const stockout = p.inStock === false;
+        const image = getProductPrimaryImage(p);
+        const tags = buildBadgeHtml(p);
+        const hasDiscount = productHasDiscount(p);
+        return `
+          <article class="product-card">
+            <a href="product.html?id=${encodeURIComponent(slug)}" class="product-image">
+              <div class="product-badges">${tags}</div>
+              <img src="${image}" alt="${p.name || 'Product'}" loading="lazy" />
+            </a>
+            <div class="product-content">
+              <h3><a href="product.html?id=${encodeURIComponent(slug)}">${p.name || 'Untitled product'}</a></h3>
+              <p>${p.description || ''}</p>
+              <div class="price-row">
+                <div class="price">${formatMoney(p.price)}</div>
+                ${hasDiscount ? `<div class="price-old">${formatMoney(p.originalPrice)}</div>` : ''}
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-ghost" type="button" data-wishlist-state="${slug}" onclick="toggleWishlistFromGrid('${slug}', this)"><i class="fa-regular fa-heart"></i> উইশলিস্ট</button>
+                <button class="btn btn-primary" type="button" ${stockout ? 'disabled style="opacity:.55; cursor:not-allowed;"' : ''} onclick="addToCartBySlug('${slug}')"><i class="fa-solid fa-cart-plus"></i> ${stockout ? 'স্টক নেই' : 'কার্টে'}</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      updateWishlistButtons();
+      renderCart();
+      renderSummary();
+      updateBadges();
+    }
+
+    function updateWishlistButtons() {
+      const wishlist = getWishlist();
+      document.querySelectorAll('[data-wishlist-state]').forEach(btn => {
+        const slug = btn.getAttribute('data-wishlist-state');
+        setButtonWishlistState(btn, wishlist.includes(slug));
+      });
+    }
+
+    function toggleWishlistFromGrid(slug, button) {
+      const saved = toggleWishlistSlug(slug);
+      setButtonWishlistState(button, saved);
+    }
+
+    function addToCartBySlug(slug) {
+      const product = state.products.find((p, index) => productCardId(p, index) === slug);
+      if (!product || product.inStock === false) return;
+      const cart = getCart();
+      const existing = cart.find(item => item.slug === slug);
+      if (existing) existing.qty += 1;
+      else {
+        cart.push({
+          slug,
+          name: product.name || 'Untitled product',
+          price: Number(product.price || 0),
+          image: getProductPrimaryImage(product),
+          qty: 1
+        });
+      }
+      saveCart(cart);
+      renderCart();
+      renderSummary();
+    }
+
+    function removeFromCart(slug) {
+      saveCart(getCart().filter(item => item.slug !== slug));
+      renderCart();
+      renderSummary();
+    }
+
+    function updateCartQty(slug, change) {
+      const cart = getCart();
+      const item = cart.find(x => x.slug === slug);
+      if (!item) return;
+      item.qty = Number(item.qty || 0) + change;
+      if (item.qty <= 0) {
+        saveCart(cart.filter(x => x.slug !== slug));
+      } else {
+        saveCart(cart);
+      }
+      renderCart();
+      renderSummary();
+    }
+
+    function renderCart() {
+      const items = getCart();
+      const holder = document.getElementById('cartItems');
+      if (!items.length) {
+        holder.innerHTML = `
+          <div class="empty-state" style="padding:18px;">
+            <i class="fa-solid fa-cart-shopping" style="font-size:28px; color:var(--accent);"></i>
+            <h3 class="brand-font" style="font-size:20px;">কার্ট খালি</h3>
+            <p>পণ্য যোগ করলে সেগুলো এখানে দেখাবে।</p>
+          </div>`;
+        return;
+      }
+
+      holder.innerHTML = items.map(item => `
+        <div class="cart-item">
+          <img src="${item.image || ''}" alt="${item.name || 'Item'}" />
+          <div>
+            <div class="cart-title">${item.name}</div>
+            <div class="cart-meta">${formatMoney(item.price)} × ${toBnDigits(item.qty)} = ${formatMoney((Number(item.price)||0) * (Number(item.qty)||0))}</div>
+            <div style="margin-top:10px;" class="qty">
+              <button type="button" onclick="updateCartQty('${item.slug}', -1)">−</button>
+              <span>${toBnDigits(item.qty)}</span>
+              <button type="button" onclick="updateCartQty('${item.slug}', 1)">+</button>
+            </div>
+          </div>
+          <button class="icon-btn" type="button" onclick="removeFromCart('${item.slug}')" style="width:40px;height:40px;"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      `).join('');
+    }
+
+    function renderSummary() {
+      const cart = getCart();
+      const subtotal = cart.reduce((sum, item) => sum + Number(item.price || 0) * Number(item.qty || 0), 0);
+      const shipping = getShippingCharge(state.settings, state.cartShipping);
+      const total = cart.length ? subtotal + shipping : 0;
+
+      document.getElementById('subtotalText').textContent = formatMoney(subtotal);
+      document.getElementById('deliveryText').textContent = formatMoney(shipping);
+      document.getElementById('totalText').textContent = formatMoney(total);
+
+      document.getElementById('insideLabelText').textContent = state.settings.shippingInsideLabel;
+      document.getElementById('outsideLabelText').textContent = state.settings.shippingOutsideLabel;
+      document.getElementById('insideChargeText').textContent = formatMoney(state.settings.shippingInsideCharge);
+      document.getElementById('outsideChargeText').textContent = formatMoney(state.settings.shippingOutsideCharge);
+
+      document.getElementById('deliveryInsideLabel').classList.toggle('active', state.cartShipping === 'inside');
+      document.getElementById('deliveryOutsideLabel').classList.toggle('active', state.cartShipping === 'outside');
+    }
+
+    function openCart() {
+      document.getElementById('cartDrawer').classList.add('open');
+      document.getElementById('overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCart() {
+      document.getElementById('cartDrawer').classList.remove('open');
+      document.getElementById('overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function applyDeliverySelection() {
+      const selected = document.querySelector('input[name="deliveryMode"]:checked');
+      state.cartShipping = selected ? selected.value : 'inside';
+      renderSummary();
+    }
+
+    async function initProductsPage() {
+      const [products, settings] = await Promise.all([loadProducts(), loadSiteSettings()]);
+      state.products = products;
+      state.settings = settings;
+
+      document.getElementById('whatsappFloat').addEventListener('click', () => {
+        openWhatsAppOrder(state.settings, getCart(), state.cartShipping);
+      });
+
+      document.getElementById('openCartBtn').addEventListener('click', openCart);
+      document.getElementById('closeCartBtn').addEventListener('click', closeCart);
+      document.getElementById('overlay').addEventListener('click', closeCart);
+      document.getElementById('checkoutBtn').addEventListener('click', () => {
+        const cart = getCart();
+        if (!cart.length) return;
+        openWhatsAppOrder(state.settings, cart, state.cartShipping);
+      });
+      document.getElementById('clearCartBtn').addEventListener('click', () => {
+        saveCart([]);
+        renderCart();
+        renderSummary();
+      });
+
+      document.getElementById('searchInput').addEventListener('input', (e) => {
+        state.search = e.target.value.trim();
+        renderGrid();
+        renderChips();
+      });
+      document.getElementById('clearSearchBtn').addEventListener('click', clearSearch);
+      document.getElementById('sortSelect').addEventListener('change', (e) => {
+        state.sort = e.target.value;
+        renderGrid();
+      });
+
+      document.getElementById('filterGypsumBtn').addEventListener('click', () => setCategory('gypsum'));
+      document.getElementById('filterResinBtn').addEventListener('click', () => setCategory('resin'));
+      document.getElementById('filterCandleBtn').addEventListener('click', () => setCategory('candle'));
+
+      document.querySelectorAll('input[name="deliveryMode"]').forEach(input => {
+        input.addEventListener('change', applyDeliverySelection);
+      });
+
+      const urlCategory = new URLSearchParams(location.search).get('category');
+      if (['gypsum', 'resin', 'candle'].includes(String(urlCategory || '').toLowerCase())) {
+        state.category = urlCategory.toLowerCase();
+      }
+
+      renderChips();
+      renderGrid();
+      updateBadges();
+      renderSummary();
+    }
+
+    initProductsPage();
+
+    window.setCategory = setCategory;
+    window.clearSearch = clearSearch;
+    window.toggleWishlistFromGrid = toggleWishlistFromGrid;
+    window.addToCartBySlug = addToCartBySlug;
+    window.removeFromCart = removeFromCart;
+    window.updateCartQty = updateCartQty;
+  </script>
+</body>
+</html>
