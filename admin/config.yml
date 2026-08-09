@@ -59,6 +59,8 @@ collections:
 
   - name: "products"
     label: "Products"
+    label_singular: "Product"
+
     files:
 
       - file: "products.json"
@@ -71,16 +73,17 @@ collections:
           - label: "Products"
             name: "products"
             widget: "list"
-            root: true
+            label_singular: "Product"
             collapsed: true
-            summary: "{{name}} — ৳{{price}}"
+            add_to_top: true
+            summary: "{{fields.name}} — ৳{{fields.price}}"
 
             fields:
 
               - label: "Unique Slug / ID"
                 name: "slug"
                 widget: "string"
-                hint: "Use a permanent unique ID such as resin-tray-001."
+                hint: "Example: resin-tray-001"
 
               - label: "Product Name"
                 name: "name"
