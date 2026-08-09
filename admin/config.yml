@@ -8,8 +8,6 @@ public_folder: "/images"
 site_url: /
 display_url: /
 
-publish_mode: simple
-
 collections:
 
   - name: "settings"
@@ -25,12 +23,12 @@ collections:
           - label: "WhatsApp Number"
             name: "whatsappNumber"
             widget: "string"
-            hint: "Display number, e.g. 01410355233"
+            hint: "Example: 01410355233"
 
           - label: "WhatsApp International Number"
             name: "whatsappInternational"
             widget: "string"
-            hint: "No + or spaces, e.g. 8801410355233"
+            hint: "Example: 8801410355233"
 
           - label: "Default WhatsApp Message"
             name: "whatsappMessage"
@@ -59,7 +57,6 @@ collections:
 
   - name: "products"
     label: "Products"
-    label_singular: "Product"
 
     files:
 
@@ -73,14 +70,13 @@ collections:
           - label: "Products"
             name: "products"
             widget: "list"
-            label_singular: "Product"
             collapsed: true
             add_to_top: true
-            summary: "{{fields.name}} — ৳{{fields.price}}"
+            summary: "{{name}} — ৳{{price}}"
 
             fields:
 
-              - label: "Unique Slug / ID"
+              - label: "Product ID"
                 name: "slug"
                 widget: "string"
                 hint: "Example: resin-tray-001"
@@ -93,45 +89,14 @@ collections:
                 name: "category"
                 widget: "select"
                 options:
-                  - label: "Gypsum (জিপসাম)"
-                    value: "gypsum"
-                  - label: "Resin (রেজিন)"
-                    value: "resin"
-                  - label: "Candle (ক্যান্ডেল)"
-                    value: "candle"
+                  - "gypsum"
+                  - "resin"
+                  - "candle"
                 default: "gypsum"
 
               - label: "Subcategory"
                 name: "subcategory"
                 widget: "string"
-                required: false
-
-              - label: "Date Added"
-                name: "dateAdded"
-                widget: "datetime"
-                required: false
-                date_format: "YYYY-MM-DD"
-                time_format: false
-
-              - label: "Tags"
-                name: "tags"
-                widget: "string"
-                required: false
-                hint: "Separate tags with commas."
-
-              - label: "SKU"
-                name: "sku"
-                widget: "string"
-                required: false
-
-              - label: "Short Description"
-                name: "description"
-                widget: "text"
-                required: false
-
-              - label: "Full Description"
-                name: "fullDescription"
-                widget: "text"
                 required: false
 
               - label: "Price (৳)"
@@ -147,18 +112,39 @@ collections:
                 required: false
                 min: 0
 
-              - label: "Main Photo"
+              - label: "Main Product Image"
                 name: "image"
                 widget: "image"
 
-              - label: "Additional Gallery Photos"
+              - label: "Gallery Images"
                 name: "gallery"
                 widget: "list"
                 required: false
                 field:
-                  label: "Photo"
+                  label: "Image"
                   name: "src"
                   widget: "image"
+
+              - label: "Short Description"
+                name: "description"
+                widget: "text"
+                required: false
+
+              - label: "Full Description"
+                name: "fullDescription"
+                widget: "text"
+                required: false
+
+              - label: "SKU"
+                name: "sku"
+                widget: "string"
+                required: false
+
+              - label: "Tags"
+                name: "tags"
+                widget: "string"
+                required: false
+                hint: "Separate tags with commas"
 
               - label: "In Stock"
                 name: "inStock"
@@ -187,7 +173,7 @@ collections:
                 widget: "string"
                 required: false
 
-              - label: "Show in Trending"
+              - label: "Trending"
                 name: "trending"
                 widget: "boolean"
                 default: false
